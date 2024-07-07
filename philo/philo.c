@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:29:41 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/06 19:26:15 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/07 23:06:43 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,21 @@ void	ft_philos_init(t_data *data)
 
 	i = 0;
 	data->death = false;
+	data->sync = false;
 	while (i < data->num_philos)
 	{
-		if (!mutex_handle(&data->forks[i], INIT));
-			return ;
+		if (!mutex_handle(&data->forks[i], INIT))
+			return ; // handle later
 		data->philo_id[i].id = i + 1;
-		data->philo_id->full = false;
+		data->philo_id[i].full = false;
 		data->philo_id[i].meals = 0;
 		data->philo_id[i].last_meal = 0;
+		mutex_handle(&data->philo_id[i].race, INIT);
 		ft_fork_ass(&data->philo_id[i], data->forks, i, data->num_philos);
 		i++;
 	}
+	mutex_handle(&data->lock, INIT);
+	mutex_handle(&data->write, INIT);
 }
 
 int	ft_atoi(char *s)

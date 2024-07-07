@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+         #
+#    By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/14 12:31:17 by adbouras          #+#    #+#              #
-#    Updated: 2024/06/22 19:31:38 by adbouras         ###   ########.fr        #
+#    Updated: 2024/07/07 22:57:27 by adhambouras      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -pthread
 
-SRC =  main.c philo.c
+SRC =  main.c philo.c handlers.c sync.c actions.c
 
 OBJ = $(SRC:.c=.o)
 

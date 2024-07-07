@@ -6,107 +6,59 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/06 18:53:53 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/07 23:06:06 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
-
-void	ft_eating(t_data *data, int p)
-{
-	printf("%-6lu Philosopher %-3d is eating!\n", get_time() - data->time_init , data->philo_id[p].id);
-	usleep(data->time_to_eat * 1000);
-	data->philo_id[p].last_meal = get_time() - data->time_init;
-	data->philo_id[p].meals++;
-}
-
-void	ft_sleeping(t_data *data, int p)
-{
-	printf("%-6lu Philosopher %-3d is sleeping!\n", get_time() - data->time_init , data->philo_id[p].id);
-	usleep(data->time_to_sleep * 1000);
-}
-
-void	ft_thinking(t_data *data, int p)
-{
-	printf ("%-6lu Philosopher %-3d is thinking!\n", get_time() - data->time_init , data->philo_id[p].id);
-}
-
 void	*ft_dinning(void *param)
 {
-	t_data	*data;
-	int		i;
+	t_philo	*philo;
 
-	i = 0;
-	data = (t_data *)param;
-	while (1)
+	philo = (t_philo *)param;
+	ft_wait_threads(philo->data);
+	while (!philo->data->death)
 	{
-		pthread_mutex_lock(&data->lock);
-		// check
-		if (i == data->num_philos)
-			i = 0;
-		// if (data->philo_id[0].meals == data->num_to_eat && data->philo_id[data->num_philos - 1].meals == data->num_to_eat)
-		// {
-		// 	printf("%-6lu Philosopher %-3d is full!\n", get_time() - data->time_init , data->philo_id[i].id);
-		// 	return NULL;
-		// }
-		//												EATING
-		ft_eating(data, i);
-		//												SLEEPING
-		ft_sleeping(data, i);
-		//												THINKING
-		ft_thinking(data, i);
-		i++;
-		pthread_mutex_unlock(&data->lock);
+		if (philo->full)
+			break;
+		ft_eating(philo);
+		
+		ft_sleeping(philo);
+		
+		ft_thinking(philo);
 	}
+	
+	
 	return NULL;
 }
 
-void	ft_sim(t_data *data)
+void	ft_start_sim(t_data *data)
 {
 	int	i;
-	int	f = 0;
 
 	i = 0;
-	while (i < data->num_philos)
-	{
-		pthread_create(&data->philo_id[i].thread, NULL, &ft_dinning, data);
-		i++;
-	}
-	while (1)
-	{
-		i = 0;
-		if (f == 1)
+	if (data->num_philos == 1)
+		;
+	else
 		{
-			return ;
-		}
-		while (i < data->num_philos)
-		{
-			// if (data->philo_id[i].last_meal >= data->time_to_die)
-			// {
-			// 	printf (":%ld: | :%ld:\n", data->philo_id[i].last_meal, data->time_to_die);
-			// 	printf("[%6lu] Philosopher [%d] DIED!\n", get_time() - data->time_init , data->philo_id[i].id);
-			// 	f = 1;
-			// 	break ;
-			// }
-			if (data->num_to_eat == data->philo_id[i].meals && data->philo_id[data->num_philos - 1].meals == data->num_to_eat)
+			while (i < data->num_philos)
 			{
-				printf("%-6lu Philosophers are full!\n", get_time() - data->time_init);
-				if (data->num_to_eat == data->philo_id[0].meals && data->philo_id[data->num_philos - 1].meals == data->num_to_eat)
-				f = 1;
-				break;
+				// if (!tread_handle(&data->philo_id[i].thread, ft_dinning, &data->philo_id[i], CREAT))
+				// 	return; // handle later
+				pthread_create(&data->philo_id[i].thread, NULL, ft_dinning, data);
+				i++;
 			}
-			i++;
+			data->time_init = get_time();
+			mutex_handle(&data->lock, LOCK);
+			data->sync = true;
+			mutex_handle(&data->lock, UNLOCK);
+			i = 0;
+			while (i < data->num_philos)
+				tread_handle(&data->philo_id[i++].thread, NULL, NULL, JOIN);
+			
 		}
-	}
-	i = 0;
-	while (i < data->num_philos)
-	{
-		pthread_join(data->philo_id[i].thread, NULL);
-		i++;
-	}
-	return ;
 }
 
 int	main(int ac, char **av)
@@ -133,7 +85,7 @@ int	main(int ac, char **av)
 			printf("%-6lu Philosopher %-3d in da house!\n", get_time() - data->time_init , data->philo_id[i].id);
 			i++;
 		}
-		ft_sim(data);
+		ft_start_sim(data);
 	}
 	else
 		write(2, "[INPUT ERROR]\n", 14);

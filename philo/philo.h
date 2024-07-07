@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/06 18:50:56 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/07 22:31:44 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+
 typedef enum	s_code
 {
 	CREAT,
@@ -31,6 +32,8 @@ typedef enum	s_code
 	DESTROY,
 }				t_code;
 
+typedef struct s_data t_data;
+
 typedef struct	s_philo
 {
 	int				id;
@@ -40,9 +43,11 @@ typedef struct	s_philo
 	pthread_t		thread;
 	pthread_mutex_t *r_fork;
 	pthread_mutex_t *l_fork;
+	pthread_mutex_t	race;
+	t_data			*data;
 }					t_philo;
 
-typedef struct s_data
+struct s_data
 {
 	int				num_philos;
 	size_t			time_to_die;
@@ -51,14 +56,24 @@ typedef struct s_data
 	int				num_to_eat;
 	size_t			time_init;
 	bool			death;
+	bool			sync;
 	t_philo			*philo_id;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	lock;
-}					t_data;
+	pthread_mutex_t	write;
+};
 
 /***	THREAD & MUTEX	***********************************/
 bool    mutex_handle(pthread_mutex_t *mutex, t_code code);
 bool    tread_handle(pthread_t *thread, void *(*func), void *data, t_code code);
+
+/***	SYNC	******************************************/
+void    ft_wait_threads(t_data *data);
+
+/***	ACTIONS	*****************************************/
+void	ft_eating(t_philo *philo);
+void	ft_sleeping(t_philo *philo);
+void	ft_thinking(t_philo *philo);
 
 
 bool	ft_parsing(char **arg, t_data *prog);
