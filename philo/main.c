@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/07 23:06:06 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/08 20:16:29 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	*ft_dinning(void *param)
 		
 		ft_thinking(philo);
 	}
-	
-	
 	return NULL;
 }
 
@@ -40,23 +38,27 @@ void	ft_start_sim(t_data *data)
 
 	i = 0;
 	if (data->num_philos == 1)
-		;
+		return ;
 	else
 		{
+			data->time_init = get_time();
 			while (i < data->num_philos)
 			{
 				// if (!tread_handle(&data->philo_id[i].thread, ft_dinning, &data->philo_id[i], CREAT))
 				// 	return; // handle later
-				pthread_create(&data->philo_id[i].thread, NULL, ft_dinning, data);
+				pthread_create(&data->philo_id[i].thread, NULL, ft_dinning, &data->philo_id[i]);
 				i++;
 			}
-			data->time_init = get_time();
 			mutex_handle(&data->lock, LOCK);
 			data->sync = true;
 			mutex_handle(&data->lock, UNLOCK);
 			i = 0;
 			while (i < data->num_philos)
-				tread_handle(&data->philo_id[i++].thread, NULL, NULL, JOIN);
+			{
+				// tread_handle(&data->philo_id[i++].thread, NULL, NULL, JOIN);
+				pthread_join(data->philo_id[i].thread, NULL);
+				i++;
+			}
 			
 		}
 }
@@ -82,10 +84,11 @@ int	main(int ac, char **av)
 		int i = 0;
 		while (i < data->num_philos)
 		{
-			printf("%-6lu Philosopher %-3d in da house!\n", get_time() - data->time_init , data->philo_id[i].id);
+			printf("%-6ld Philosopher %-3d in da house!\n", get_time() - data->time_init , data->philo_id[i].id);
 			i++;
 		}
 		ft_start_sim(data);
+		printf("MEGA\n");
 	}
 	else
 		write(2, "[INPUT ERROR]\n", 14);

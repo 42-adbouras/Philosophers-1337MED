@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:34:29 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/07 21:36:19 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/08 20:09:41 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void    ft_wait_threads(t_data *data)
 {
-    while (!data->sync);
+    while (data->sync == false);
 }
