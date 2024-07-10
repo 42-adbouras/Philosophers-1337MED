@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
+/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/08 20:16:29 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/10 09:41:43 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	*ft_dinning(void *param)
 	while (!philo->data->death)
 	{
 		if (philo->full)
+		{
+			printf(BBLU"[%-6ld] Philosopher [%-3d] is full\n"RSET, get_time() - philo->data->time_init, philo->id);	
 			break;
+		}
 		ft_eating(philo);
 		
 		ft_sleeping(philo);
@@ -44,9 +47,9 @@ void	ft_start_sim(t_data *data)
 			data->time_init = get_time();
 			while (i < data->num_philos)
 			{
-				// if (!tread_handle(&data->philo_id[i].thread, ft_dinning, &data->philo_id[i], CREAT))
-				// 	return; // handle later
-				pthread_create(&data->philo_id[i].thread, NULL, ft_dinning, &data->philo_id[i]);
+				if (!tread_handle(&data->philo_id[i].thread, ft_dinning, &data->philo_id[i], CREAT))
+					return; // handle later
+				// pthread_create(&data->philo_id[i].thread, NULL, ft_dinning, &data->philo_id[i]);
 				i++;
 			}
 			mutex_handle(&data->lock, LOCK);
@@ -55,11 +58,11 @@ void	ft_start_sim(t_data *data)
 			i = 0;
 			while (i < data->num_philos)
 			{
-				// tread_handle(&data->philo_id[i++].thread, NULL, NULL, JOIN);
-				pthread_join(data->philo_id[i].thread, NULL);
+				if (!tread_handle(&data->philo_id[i++].thread, NULL, NULL, JOIN))
+					return ;
+				// pthread_join(data->philo_id[i].thread, NULL);
 				i++;
 			}
-			
 		}
 }
 
@@ -82,12 +85,14 @@ int	main(int ac, char **av)
 		data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
 		ft_philos_init(data);
 		int i = 0;
+		data->time_init = get_time();
 		while (i < data->num_philos)
 		{
-			printf("%-6ld Philosopher %-3d in da house!\n", get_time() - data->time_init , data->philo_id[i].id);
+			printf("[%-6ld] Philosopher [%-3d] in da house!\n", get_time() - data->time_init , data->philo_id[i].id);
 			i++;
 		}
 		ft_start_sim(data);
+		ft_clean(data);
 		printf("MEGA\n");
 	}
 	else

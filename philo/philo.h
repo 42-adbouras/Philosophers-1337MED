@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
+/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/07 22:31:44 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/10 15:09:58 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+#define BBLK "\e[1;30m"
+#define BRED "\e[1;31m"
+#define BGRN "\e[1;32m"
+#define BYEL "\e[1;33m"
+#define BBLU "\e[1;34m"
+#define BMAG "\e[1;35m"
+#define BCYN "\e[1;36m"
+#define RSET "\e[0m"
 
 typedef enum	s_code
 {
@@ -58,6 +66,7 @@ struct s_data
 	bool			death;
 	bool			sync;
 	t_philo			*philo_id;
+	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	write;
@@ -65,7 +74,7 @@ struct s_data
 
 /***	THREAD & MUTEX	***********************************/
 bool    mutex_handle(pthread_mutex_t *mutex, t_code code);
-bool    tread_handle(pthread_t *thread, void *(*func), void *data, t_code code);
+bool    tread_handle(pthread_t *thread, void *(*func)(void *), void *data, t_code code);
 
 /***	SYNC	******************************************/
 void    ft_wait_threads(t_data *data);
@@ -75,10 +84,13 @@ void	ft_eating(t_philo *philo);
 void	ft_sleeping(t_philo *philo);
 void	ft_thinking(t_philo *philo);
 
+/***	FREE	*****************************************/
+void	ft_clean(t_data *data);
 
 bool	ft_parsing(char **arg, t_data *prog);
 int		ft_atoi(char *s);
 size_t	get_time(void);
 void	ft_philos_init(t_data *data);
+void	ft_usleep(size_t ms);
 
 #endif

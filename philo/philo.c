@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
+/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:29:41 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/08 20:41:53 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/10 15:16:01 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@ size_t	get_time(void)
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
+void	ft_usleep(size_t ms)
+{
+	size_t start;
 
+	start = get_time();
+	while ((get_time() - start) < ms)
+		usleep(500);
+}
 // void	ft_fork_ass(t_philo *philo, pthread_mutex_t *forks, int pos, int n_philos)
 // {
 // 	if (n_philos % 2 == 0)
@@ -47,6 +54,7 @@ void	ft_fork_ass(t_data *data)
 		data->philo_id[i].r_fork = &data->forks[i - 1];
 		i++;
 	}
+	// data->philo_id[0].r_fork = &data->forks[data->num_philos - 1];
 	
 }
 
