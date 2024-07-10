@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:29:41 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/10 15:16:01 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:21:23 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,24 @@ size_t	get_time(void)
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
-void	ft_usleep(size_t ms)
+int	ft_usleep(size_t ms)
 {
 	size_t start;
 
 	start = get_time();
 	while ((get_time() - start) < ms)
 		usleep(500);
+	return 0;
 }
 // void	ft_fork_ass(t_philo *philo, pthread_mutex_t *forks, int pos, int n_philos)
 // {
-// 	if (n_philos % 2 == 0)
+// 	philo->l_fork = &forks[pos];
+// 	philo->r_fork = &forks[(pos + 1) % n_philos];
+// 	if (n_philos % 2 != 0)
 // 	{
 // 		philo->r_fork = &forks[pos];
 // 		philo->l_fork = &forks[(pos + 1) % n_philos];
 // 	}
-// 	else
-// 		philo->l_fork = &forks[pos];
-// 		philo->r_fork = &forks[(pos + 1) % n_philos];
 // }
 
 void	ft_fork_ass(t_data *data)
@@ -54,7 +54,7 @@ void	ft_fork_ass(t_data *data)
 		data->philo_id[i].r_fork = &data->forks[i - 1];
 		i++;
 	}
-	// data->philo_id[0].r_fork = &data->forks[data->num_philos - 1];
+	data->philo_id[0].r_fork = &data->forks[data->num_philos - 1];
 	
 }
 
@@ -74,7 +74,7 @@ void	ft_philos_init(t_data *data)
 		data->philo_id[i].meals = 0;
 		data->philo_id[i].last_meal = 0;
 		data->philo_id[i].data = data;
-		mutex_handle(&data->philo_id[i].race, INIT);
+		mutex_handle(&data->philo_id[i].if_full, INIT);
 		// ft_fork_ass(&data->philo_id[i], data->forks, i, data->num_philos);
 		i++;
 	}

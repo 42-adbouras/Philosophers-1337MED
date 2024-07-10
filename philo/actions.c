@@ -6,47 +6,49 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:38:58 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/10 15:17:07 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:17:36 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void    ft_print(t_philo *philo, char *s, char *color)
+{
+    mutex_handle(&philo->data->write, LOCK);
+    printf("%s[%-6ld] Philosopher [%-3d] %s\n"RSET, color, get_time() - philo->data->time_init, philo->id, s);
+    mutex_handle(&philo->data->write, UNLOCK);
+}
+
 void	ft_eating(t_philo *philo)
 {
     mutex_handle(philo->l_fork, LOCK);
-    printf(BYEL"[%-6ld] Philosopher [%-3d] has taken the left fork\n"RSET, get_time() - philo->data->time_init, philo->id);
+    ft_print(philo, "has taken the left fork", BYEL);
     mutex_handle(philo->r_fork, LOCK);
-    printf(BMAG"[%-6ld] Philosopher [%-3d] has taken the right fork\n", get_time() - philo->data->time_init, philo->id);
-    mutex_handle(&philo->data->write, LOCK);
-    printf(BGRN"[%-6ld] Philosopher [%-3d] is eating\n"RSET, get_time() - philo->data->time_init, philo->id);
-    mutex_handle(&philo->data->write, UNLOCK);
+    ft_print(philo, "has taken the right fork", BMAG);
+    ft_print(philo, "is eating", BGRN);
+    ft_usleep(philo->data->time_to_eat);
+    mutex_handle(&philo->data->lock, LOCK);
     philo->meals++;
-    usleep(philo->data->time_to_eat * 1000);
     philo->last_meal = get_time() - philo->data->time_init;
+    mutex_handle(&philo->data->lock, UNLOCK);
     if (philo->data->num_to_eat > 0 && philo->meals == philo->data->num_to_eat)
     {
-        mutex_handle(&philo->race, LOCK);
+        mutex_handle(&philo->if_full, LOCK);
         philo->full = true;
-        mutex_handle(&philo->race, UNLOCK);
+        mutex_handle(&philo->if_full, UNLOCK);
     }
     mutex_handle(philo->l_fork, UNLOCK);
     mutex_handle(philo->r_fork, UNLOCK);
-        
 }
 
 void	ft_sleeping(t_philo *philo)
 {
-    mutex_handle(&philo->data->write, LOCK);
-    printf(BBLK"[%-6ld] Philosopher [%-3d] is sleeping\n"RSET, get_time() - philo->data->time_init, philo->id);
-    mutex_handle(&philo->data->write, UNLOCK);
-    usleep(philo->data->time_to_sleep * 1000);
+    ft_print(philo, "is sleeping", BBLK);
+    ft_usleep(philo->data->time_to_sleep);
 }
 
 void	ft_thinking(t_philo *philo)
 {
-    mutex_handle(&philo->data->write, LOCK);
-    printf(BCYN"[%-6ld] Philosopher [%-3d] is thinking\n"RSET, get_time() - philo->data->time_init, philo->id);
-    mutex_handle(&philo->data->write, UNLOCK);
-    usleep(20000);
+    ft_print(philo, "is thinking", BCYN);
+    ft_usleep(200);
 }

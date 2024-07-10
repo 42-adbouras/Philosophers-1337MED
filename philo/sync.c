@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sync.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
+/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:34:29 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/08 20:09:41 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/10 20:16:19 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void    ft_wait_threads(t_data *data)
 {
-    while (data->sync == false);
+    while (!data->sync);
 }

@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/10 15:09:58 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:17:58 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct	s_philo
 	pthread_t		thread;
 	pthread_mutex_t *r_fork;
 	pthread_mutex_t *l_fork;
-	pthread_mutex_t	race;
+	pthread_mutex_t	if_full;
 	t_data			*data;
 }					t_philo;
 
@@ -87,10 +87,11 @@ void	ft_thinking(t_philo *philo);
 /***	FREE	*****************************************/
 void	ft_clean(t_data *data);
 
+void    ft_print(t_philo *philo, char *s, char *color);
 bool	ft_parsing(char **arg, t_data *prog);
 int		ft_atoi(char *s);
 size_t	get_time(void);
 void	ft_philos_init(t_data *data);
-void	ft_usleep(size_t ms);
+int	ft_usleep(size_t ms);
 
 #endif

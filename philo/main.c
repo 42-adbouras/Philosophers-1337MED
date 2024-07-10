@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/10 09:41:43 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:23:18 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ void	*ft_dinning(void *param)
 
 	philo = (t_philo *)param;
 	ft_wait_threads(philo->data);
+	if (philo->id % 2 != 0)
+		ft_sleeping(philo);
 	while (!philo->data->death)
 	{
 		if (philo->full)
 		{
-			printf(BBLU"[%-6ld] Philosopher [%-3d] is full\n"RSET, get_time() - philo->data->time_init, philo->id);	
+			ft_print(philo, "is full", BBLU);
 			break;
 		}
 		ft_eating(philo);
