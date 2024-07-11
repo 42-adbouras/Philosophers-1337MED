@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:38:58 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/10 20:17:36 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:22:04 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_eating(t_philo *philo)
     ft_usleep(philo->data->time_to_eat);
     mutex_handle(&philo->data->lock, LOCK);
     philo->meals++;
-    philo->last_meal = get_time() - philo->data->time_init;
+    philo->last_meal = get_time();
     mutex_handle(&philo->data->lock, UNLOCK);
     if (philo->data->num_to_eat > 0 && philo->meals == philo->data->num_to_eat)
     {

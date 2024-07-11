@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/10 20:17:58 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:05:06 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-#define BBLK "\e[1;30m"
-#define BRED "\e[1;31m"
-#define BGRN "\e[1;32m"
-#define BYEL "\e[1;33m"
-#define BBLU "\e[1;34m"
-#define BMAG "\e[1;35m"
-#define BCYN "\e[1;36m"
-#define RSET "\e[0m"
+# define BBLK "\e[1;30m"
+# define BRED "\e[1;31m"
+# define BGRN "\e[1;32m"
+# define BYEL "\e[1;33m"
+# define BBLU "\e[1;34m"
+# define BMAG "\e[1;35m"
+# define BCYN "\e[1;36m"
+# define RSET "\e[0m"
 
 typedef enum	s_code
 {
@@ -61,8 +61,8 @@ struct s_data
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	int				num_to_eat;
 	size_t			time_init;
+	int				num_to_eat;
 	bool			death;
 	bool			sync;
 	t_philo			*philo_id;
@@ -92,6 +92,6 @@ bool	ft_parsing(char **arg, t_data *prog);
 int		ft_atoi(char *s);
 size_t	get_time(void);
 void	ft_philos_init(t_data *data);
-int	ft_usleep(size_t ms);
+void	ft_usleep(size_t ms);
 
 #endif

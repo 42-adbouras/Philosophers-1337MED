@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/10 21:23:18 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:56:54 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,13 @@ void	*ft_dinning(void *param)
 		if (philo->full)
 		{
 			ft_print(philo, "is full", BBLU);
-			break;
+			break ;
+		}
+		if (get_time() - philo->last_meal > philo->data->time_to_die)
+		{
+			philo->data->death = true;
+			ft_print(philo, "DIED", BRED);
+			break ;
 		}
 		ft_eating(philo);
 		
@@ -51,7 +57,6 @@ void	ft_start_sim(t_data *data)
 			{
 				if (!tread_handle(&data->philo_id[i].thread, ft_dinning, &data->philo_id[i], CREAT))
 					return; // handle later
-				// pthread_create(&data->philo_id[i].thread, NULL, ft_dinning, &data->philo_id[i]);
 				i++;
 			}
 			mutex_handle(&data->lock, LOCK);
@@ -62,7 +67,6 @@ void	ft_start_sim(t_data *data)
 			{
 				if (!tread_handle(&data->philo_id[i++].thread, NULL, NULL, JOIN))
 					return ;
-				// pthread_join(data->philo_id[i].thread, NULL);
 				i++;
 			}
 		}
@@ -83,11 +87,9 @@ int	main(int ac, char **av)
 			return(1);
 		}
 		write(2, "[INPUT OK]\n", 11);
-		data->philo_id = malloc(sizeof(t_philo) * data->num_philos);
-		data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
 		ft_philos_init(data);
 		int i = 0;
-		data->time_init = get_time();
+		// data->time_init = get_time();
 		while (i < data->num_philos)
 		{
 			printf("[%-6ld] Philosopher [%-3d] in da house!\n", get_time() - data->time_init , data->philo_id[i].id);
@@ -99,5 +101,7 @@ int	main(int ac, char **av)
 	}
 	else
 		write(2, "[INPUT ERROR]\n", 14);
+	data = NULL;
+	system("leaks philo");
 	return (0);
 }
