@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:29:41 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/11 12:33:26 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:19:18 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ void	ft_fork_ass(t_data *data)
 	int	i = 0;
 	while (i < data->num_philos)
 	{
-		mutex_handle(&data->forks[i].forks, INIT);
-		i++;
-	}
-	i = 0;
-	while (i < data->num_philos)
-	{
+		// mutex_handle(&data->forks[i].forks, INIT);
 		data->forks[i].id = i + 1;
 		data->philo_id[i].l_fork = &data->forks[i];
 		data->philo_id[i].r_fork = &data->forks[i - 1];
 		i++;
 	}
+	// i = 0;
+	// while (i < data->num_philos)
+	// {
+	// 	i++;
+	// }
 	data->philo_id[0].r_fork = &data->forks[data->num_philos - 1];
 	
 }
@@ -55,7 +55,7 @@ void	ft_philos_init(t_data *data)
 
 	i = 0;
 	data->philo_id = malloc(sizeof(t_philo) * data->num_philos);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	data->forks = malloc(sizeof(t_mtx) * data->num_philos);
 	data->death = false;
 	data->sync = false;
 	while (i < data->num_philos)

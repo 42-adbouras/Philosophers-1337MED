@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:38:58 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/11 13:15:51 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:06:55 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void    ft_print(t_philo *philo, char *s, char *color)
 void	ft_eating(t_philo *philo)
 {
     mutex_handle(&philo->l_fork->forks, LOCK);
-    ft_print(philo, "has taken a fork", BYEL);
+    ft_print(philo, "has taken left fork", BYEL);
     mutex_handle(&philo->r_fork->forks, LOCK);
-    ft_print(philo, "has taken a fork", BMAG);
+    ft_print(philo, "has taken right fork", BMAG);
     ft_print(philo, "is eating", BGRN);
     ft_usleep(philo->data->time_to_eat);
     mutex_handle(&philo->data->lock, LOCK);
