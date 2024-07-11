@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/11 10:56:54 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:43:50 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_dinning(void *param)
 			ft_print(philo, "is full", BBLU);
 			break ;
 		}
-		if (get_time() - philo->last_meal > philo->data->time_to_die)
+		if (get_time() - philo->last_meal >= philo->data->time_to_die)
 		{
 			philo->data->death = true;
 			ft_print(philo, "DIED", BRED);
@@ -95,13 +95,19 @@ int	main(int ac, char **av)
 			printf("[%-6ld] Philosopher [%-3d] in da house!\n", get_time() - data->time_init , data->philo_id[i].id);
 			i++;
 		}
+		i = 0;
+		while (i < data->num_philos)
+		{
+			printf("[%d] LF: %d | RF : %d\n", data->philo_id[i].id, data->philo_id[i].l_fork->id, data->philo_id[i].r_fork->id);
+			i++;
+		}
 		ft_start_sim(data);
-		ft_clean(data);
+		// ft_clean(data);
 		printf("MEGA\n");
 	}
 	else
 		write(2, "[INPUT ERROR]\n", 14);
-	data = NULL;
-	system("leaks philo");
+	// data = NULL;
+	// system("leaks philo");
 	return (0);
 }

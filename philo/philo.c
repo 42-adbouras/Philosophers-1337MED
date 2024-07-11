@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:29:41 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/11 10:36:44 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:33:26 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ void	ft_fork_ass(t_data *data)
 	int	i = 0;
 	while (i < data->num_philos)
 	{
-		mutex_handle(&data->forks[i], INIT);
+		mutex_handle(&data->forks[i].forks, INIT);
 		i++;
 	}
 	i = 0;
 	while (i < data->num_philos)
 	{
+		data->forks[i].id = i + 1;
 		data->philo_id[i].l_fork = &data->forks[i];
 		data->philo_id[i].r_fork = &data->forks[i - 1];
 		i++;
@@ -59,7 +60,7 @@ void	ft_philos_init(t_data *data)
 	data->sync = false;
 	while (i < data->num_philos)
 	{
-		if (!mutex_handle(&data->forks[i], INIT))
+		if (!mutex_handle(&data->forks[i].forks, INIT))
 			return ; // handle later
 		data->philo_id[i].id = i + 1;
 		data->philo_id[i].full = false;

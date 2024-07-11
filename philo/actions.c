@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:38:58 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/11 11:22:04 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:34:42 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void    ft_print(t_philo *philo, char *s, char *color)
 
 void	ft_eating(t_philo *philo)
 {
-    mutex_handle(philo->l_fork, LOCK);
+    mutex_handle(&philo->l_fork->forks, LOCK);
     ft_print(philo, "has taken the left fork", BYEL);
-    mutex_handle(philo->r_fork, LOCK);
+    mutex_handle(&philo->r_fork->forks, LOCK);
     ft_print(philo, "has taken the right fork", BMAG);
     ft_print(philo, "is eating", BGRN);
     ft_usleep(philo->data->time_to_eat);
@@ -37,18 +37,24 @@ void	ft_eating(t_philo *philo)
         philo->full = true;
         mutex_handle(&philo->if_full, UNLOCK);
     }
-    mutex_handle(philo->l_fork, UNLOCK);
-    mutex_handle(philo->r_fork, UNLOCK);
+    mutex_handle(&philo->l_fork->forks, UNLOCK);
+    mutex_handle(&philo->r_fork->forks, UNLOCK);
 }
 
 void	ft_sleeping(t_philo *philo)
 {
-    ft_print(philo, "is sleeping", BBLK);
-    ft_usleep(philo->data->time_to_sleep);
+    if (!philo->data->death)
+    {
+        ft_print(philo, "is sleeping", BBLK);
+        ft_usleep(philo->data->time_to_sleep);
+    }
 }
 
 void	ft_thinking(t_philo *philo)
 {
-    ft_print(philo, "is thinking", BCYN);
-    ft_usleep(200);
+    if (!philo->data->death)
+    {
+        ft_print(philo, "is thinking", BCYN);
+        // ft_usleep(200);
+    }
 }

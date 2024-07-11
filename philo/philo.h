@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/11 10:05:06 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:42:47 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ typedef enum	s_code
 
 typedef struct s_data t_data;
 
+typedef struct	s_mtx
+{
+	int 			id;
+	pthread_mutex_t	forks;
+}					t_mtx;
+
 typedef struct	s_philo
 {
 	int				id;
@@ -49,8 +55,8 @@ typedef struct	s_philo
 	bool			full;
 	size_t			last_meal;
 	pthread_t		thread;
-	pthread_mutex_t *r_fork;
-	pthread_mutex_t *l_fork;
+	t_mtx			*r_fork;
+	t_mtx			*l_fork;
 	pthread_mutex_t	if_full;
 	t_data			*data;
 }					t_philo;
@@ -67,7 +73,7 @@ struct s_data
 	bool			sync;
 	t_philo			*philo_id;
 	pthread_t		monitor;
-	pthread_mutex_t	*forks;
+	t_mtx			*forks;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	write;
 };
