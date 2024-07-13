@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/11 12:42:47 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/13 21:45:17 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct	s_philo
 	t_mtx			*r_fork;
 	t_mtx			*l_fork;
 	pthread_mutex_t	if_full;
+	pthread_mutex_t	state;
 	t_data			*data;
 }					t_philo;
 
@@ -74,9 +75,13 @@ struct s_data
 	t_philo			*philo_id;
 	pthread_t		monitor;
 	t_mtx			*forks;
+	pthread_mutex_t	meals;
+	pthread_mutex_t	time;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	write;
 };
+
+void    *ft_monitor(void *param);
 
 /***	THREAD & MUTEX	***********************************/
 bool    mutex_handle(pthread_mutex_t *mutex, t_code code);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:29:41 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/11 19:19:18 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:18:47 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ void	ft_fork_ass(t_data *data)
 	{
 		// mutex_handle(&data->forks[i].forks, INIT);
 		data->forks[i].id = i + 1;
-		data->philo_id[i].l_fork = &data->forks[i];
-		data->philo_id[i].r_fork = &data->forks[i - 1];
+		
+		data->philo_id[i].r_fork = &data->forks[i];
+		data->philo_id[i].l_fork = &data->forks[(i + 1) % data->num_philos];
+		if (data->philo_id[i].id % 2 == 0)
+		{
+			data->philo_id[i].l_fork = &data->forks[i];
+			data->philo_id[i].r_fork = &data->forks[(i + 1) % data->num_philos];
+		}
 		i++;
 	}
 	// i = 0;
@@ -45,7 +51,7 @@ void	ft_fork_ass(t_data *data)
 	// {
 	// 	i++;
 	// }
-	data->philo_id[0].r_fork = &data->forks[data->num_philos - 1];
+	// data->philo_id[data->num_philos - 1].l_fork = &data->forks[0];
 	
 }
 
@@ -68,9 +74,12 @@ void	ft_philos_init(t_data *data)
 		data->philo_id[i].last_meal = get_time();
 		data->philo_id[i].data = data;
 		mutex_handle(&data->philo_id[i].if_full, INIT);
+		mutex_handle(&data->philo_id[i].state, INIT);
 		i++;
 	}
 	ft_fork_ass(data);
+	mutex_handle(&data->meals, INIT);
+	mutex_handle(&data->time, INIT);
 	mutex_handle(&data->lock, INIT);
 	mutex_handle(&data->write, INIT);
 }

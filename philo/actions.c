@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:38:58 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/11 19:06:55 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:00:15 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,27 @@
 
 void    ft_print(t_philo *philo, char *s, char *color)
 {
-    // (void)color;
+    (void)color;
     mutex_handle(&philo->data->write, LOCK);
-    // printf("%ld %d %s\n", get_time() - philo->data->time_init, philo->id, s);
-    printf("%s[%-6ld] Philosopher [%-3d] %s\n"RSET, color, get_time() - philo->data->time_init, philo->id, s);
+    printf("%ld %d %s\n", get_time() - philo->data->time_init, philo->id, s);
+    // printf("%s[%-6ld] Philosopher [%-3d] %s\n"RSET, color, get_time() - philo->data->time_init, philo->id, s);
     mutex_handle(&philo->data->write, UNLOCK);
 }
 
 void	ft_eating(t_philo *philo)
 {
-    mutex_handle(&philo->l_fork->forks, LOCK);
-    ft_print(philo, "has taken left fork", BYEL);
-    mutex_handle(&philo->r_fork->forks, LOCK);
-    ft_print(philo, "has taken right fork", BMAG);
+    mutex_handle(&philo->l_fork->forks, LOCK);          // LEFT LOCK
+    ft_print(philo, "has taken a fork", BYEL);
+    mutex_handle(&philo->r_fork->forks, LOCK);          // RGHT LOCK
+    ft_print(philo, "has taken a fork", BMAG);
     ft_print(philo, "is eating", BGRN);
     ft_usleep(philo->data->time_to_eat);
-    mutex_handle(&philo->data->lock, LOCK);
+    mutex_handle(&philo->data->meals, LOCK);
     philo->meals++;
+    mutex_handle(&philo->data->meals, UNLOCK);
+    mutex_handle(&philo->data->time, LOCK);
     philo->last_meal = get_time();
-    mutex_handle(&philo->data->lock, UNLOCK);
+    mutex_handle(&philo->data->time, UNLOCK);
     if (philo->data->num_to_eat > 0 && philo->meals == philo->data->num_to_eat)
     {
         mutex_handle(&philo->if_full, LOCK);
@@ -57,6 +59,6 @@ void	ft_thinking(t_philo *philo)
     if (!philo->data->death)
     {
         ft_print(philo, "is thinking", BCYN);
-        ft_usleep(200);
+        ft_usleep(philo->data->time_to_eat - 10);
     }
 }
