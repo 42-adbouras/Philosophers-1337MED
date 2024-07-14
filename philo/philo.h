@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/13 21:45:17 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/14 14:41:32 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,26 @@ struct s_data
 	pthread_mutex_t	write;
 };
 
+/***	ROUTINES		***********************************/
 void    *ft_monitor(void *param);
+void	*ft_dinning(void *param);
 
 /***	THREAD & MUTEX	***********************************/
 bool    mutex_handle(pthread_mutex_t *mutex, t_code code);
 bool    tread_handle(pthread_t *thread, void *(*func)(void *), void *data, t_code code);
 
-/***	SYNC	******************************************/
+/***	SYNC			******************************************/
 void    ft_wait_threads(t_data *data);
 
-/***	ACTIONS	*****************************************/
+/***	ACTIONS			*****************************************/
 void	ft_eating(t_philo *philo);
 void	ft_sleeping(t_philo *philo);
 void	ft_thinking(t_philo *philo);
 
-/***	FREE	*****************************************/
+/***	FREE			*****************************************/
 void	ft_clean(t_data *data);
 
+/***	UTILS			*****************************************/
 void    ft_print(t_philo *philo, char *s, char *color);
 bool	ft_parsing(char **arg, t_data *prog);
 int		ft_atoi(char *s);
