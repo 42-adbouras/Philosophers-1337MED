@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/14 14:41:32 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/14 15:36:28 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ struct s_data
 /***	ROUTINES		***********************************/
 void    *ft_monitor(void *param);
 void	*ft_dinning(void *param);
+void	*ft_one_philo(void *param);
 
 /***	THREAD & MUTEX	***********************************/
 bool    mutex_handle(pthread_mutex_t *mutex, t_code code);

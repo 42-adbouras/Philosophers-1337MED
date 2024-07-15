@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 21:14:48 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/14 14:47:57 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/14 16:50:50 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*ft_dinning(void *param)
 		if (philo->full)
 		{
 			ft_print(philo, "is full", BBLU);
-			break ;
+			return NULL;
 		}
 		// if (get_time() - philo->last_meal >= philo->data->time_to_die)
 		// {
@@ -64,6 +64,7 @@ void    *ft_monitor(void *param)
     {
         if (if_philo_died(&philo[i]))
         {
+			printf("[%d]\n", philo[i].id);
             ft_print(&philo[i], "DEAD", BRED);
             data->death = true;
             break ;
@@ -73,4 +74,29 @@ void    *ft_monitor(void *param)
             i = 0;
     }
     return NULL;
+}
+
+void	*ft_one_philo(void *param)
+{
+	t_philo *philo;
+
+	philo = (t_philo *)param;
+	// ft_usleep(1000);
+	ft_wait_threads(philo->data);
+	mutex_handle(&philo->l_fork->forks, LOCK);
+    ft_print(philo, "has taken a fork", BYEL);
+	mutex_handle(&philo->data->time, LOCK);
+	philo->last_meal = get_time();
+	mutex_handle(&philo->data->time, UNLOCK);
+	printf("%d\n", philo->data->death);
+	while (philo->data->death == false);
+	// {
+		// if (get_time() - philo->last_meal > philo->data->time_to_die)
+		// {
+		// 	ft_print(&philo[0], "DIED", BRED);
+		// 	philo->data->death = true;
+		// }
+	// }
+	mutex_handle(&philo->l_fork->forks, UNLOCK);
+	return (NULL);
 }

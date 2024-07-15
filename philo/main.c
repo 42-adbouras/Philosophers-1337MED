@@ -6,7 +6,7 @@
 /*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/14 14:47:07 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/14 16:46:09 by adhambouras      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,20 @@ void	ft_start_sim(t_data *data)
 	int	i;
 
 	i = 0;
+	data->time_init = get_time();
 	if (data->num_philos == 1)
-		return ;
+	{
+		if (!tread_handle(&data->philo_id[0].thread, ft_one_philo, &data->philo_id[0], CREAT))
+			return ;
+		mutex_handle(&data->lock, LOCK);
+		data->sync = true;
+		mutex_handle(&data->lock, UNLOCK);
+		tread_handle(&data->philo_id[0].thread, NULL, NULL, JOIN);
+		tread_handle (&data->monitor, ft_monitor, data, CREAT);
+		tread_handle (&data->monitor, NULL, NULL, JOIN);
+	}
 	else
 		{
-			data->time_init = get_time();
 			while (i < data->num_philos)
 			{
 				if (!tread_handle(&data->philo_id[i].thread, ft_dinning, &data->philo_id[i], CREAT))
