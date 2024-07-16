@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
+/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:29:41 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/13 13:18:47 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:19:01 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	ft_philos_init(t_data *data)
 	mutex_handle(&data->time, INIT);
 	mutex_handle(&data->lock, INIT);
 	mutex_handle(&data->write, INIT);
+	mutex_handle(&data->death_mutex, INIT);
 }
 
 int	ft_atoi(char *s)

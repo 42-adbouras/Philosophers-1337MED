@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
+/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/14 16:46:09 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:41:29 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	ft_start_sim(t_data *data)
 		data->sync = true;
 		mutex_handle(&data->lock, UNLOCK);
 		tread_handle(&data->philo_id[0].thread, NULL, NULL, JOIN);
-		tread_handle (&data->monitor, ft_monitor, data, CREAT);
-		tread_handle (&data->monitor, NULL, NULL, JOIN);
+		// tread_handle (&data->monitor, ft_monitor, data, CREAT);
+		// tread_handle (&data->monitor, NULL, NULL, JOIN);
 	}
 	else
 		{
@@ -83,7 +83,6 @@ int	main(int ac, char **av)
 		// }
 		ft_start_sim(data);
 		// ft_clean(data);
-		printf("MEGA\n");
 	}
 	else
 		write(2, "[INPUT ERROR]\n", 14);

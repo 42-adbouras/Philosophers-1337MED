@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adhambouras <adhambouras@student.42.fr>    +#+  +:+       +#+        */
+/*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/14 15:36:28 by adhambouras      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:14:49 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ struct s_data
 	pthread_mutex_t	time;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	write;
+	pthread_mutex_t	death_mutex;
 };
 
 /***	ROUTINES		***********************************/
@@ -97,6 +98,9 @@ void    ft_wait_threads(t_data *data);
 void	ft_eating(t_philo *philo);
 void	ft_sleeping(t_philo *philo);
 void	ft_thinking(t_philo *philo);
+
+/***	SET&GET			*****************************************/
+void	set_bool(bool *target, pthread_mutex_t *mutex, bool value);
 
 /***	FREE			*****************************************/
 void	ft_clean(t_data *data);
