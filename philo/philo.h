@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/16 10:14:49 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:58:34 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct	s_philo
 	pthread_mutex_t	if_full;
 	pthread_mutex_t	state;
 	t_data			*data;
+	pthread_mutex_t	time;
 }					t_philo;
 
 struct s_data
@@ -75,15 +76,15 @@ struct s_data
 	t_philo			*philo_id;
 	pthread_t		monitor;
 	t_mtx			*forks;
-	pthread_mutex_t	meals;
-	pthread_mutex_t	time;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	meals;
 	pthread_mutex_t	write;
+	pthread_mutex_t	sync_mutex;
 	pthread_mutex_t	death_mutex;
 };
 
 /***	ROUTINES		***********************************/
-void    *ft_monitor(void *param);
+void    *ft_monitor(t_data *data);
 void	*ft_dinning(void *param);
 void	*ft_one_philo(void *param);
 
@@ -101,16 +102,21 @@ void	ft_thinking(t_philo *philo);
 
 /***	SET&GET			*****************************************/
 void	set_bool(bool *target, pthread_mutex_t *mutex, bool value);
+void	set_long(size_t *target, pthread_mutex_t *mutex, size_t value);
+bool	get_bool(bool *target, pthread_mutex_t *mutex);
+size_t	get_value(size_t *target, pthread_mutex_t *mutex);
 
 /***	FREE			*****************************************/
 void	ft_clean(t_data *data);
 
 /***	UTILS			*****************************************/
+size_t	get_time(void);
+void	ft_usleep(size_t ms);
+int		ft_atoi(char *s);
 void    ft_print(t_philo *philo, char *s, char *color);
 bool	ft_parsing(char **arg, t_data *prog);
-int		ft_atoi(char *s);
-size_t	get_time(void);
 void	ft_philos_init(t_data *data);
-void	ft_usleep(size_t ms);
+bool    if_philo_died(t_philo *philo);
+bool	all_philos_full(t_data *data);
 
 #endif
