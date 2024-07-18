@@ -6,32 +6,45 @@
 #    By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/14 12:31:17 by adbouras          #+#    #+#              #
-#    Updated: 2024/07/17 20:05:16 by adbouras         ###   ########.fr        #
+#    Updated: 2024/07/18 18:57:45 by adbouras         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+GRN	= \033[1;92m
+YLW	= \033[0;93m
+RED	= \033[1;91m
+RST	= \033[0;39m
+
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread #-g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 
-SRC =  main.c philo.c handlers.c sync.c actions.c clean.c routine.c setters.c getters.c utils.c
+SRC =  main.c philo.c handlers.c actions.c clean.c routine.c setters.c getters.c utils.c checkers.c
 
-OBJ = $(SRC:.c=.o)
+OBJ_DIR = objects/
+
+OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 NAME = philo
 
 all: $(NAME)
 
+$(OBJ_DIR)%.o:%.c
+	@echo "$(YLW)[Creating Object $@]$(RST)"
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-
-%.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(YLW)[Compiling ...]$(RST)"
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	@echo "$(GRN)[Compiled]$(RST)"
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@echo "$(RED)[Removed Objects]$(RST)"
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+	@echo "$(RED)[Removed EXE]$(RST)"
 
 re: fclean all

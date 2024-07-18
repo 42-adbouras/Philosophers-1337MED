@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:54:01 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/16 18:55:05 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:51:40 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ int	ft_atoi(char *s)
 		i++;
 	}
 	return (r);
+}
+
+void    ft_wait_threads(t_data *data)
+{
+    while (!get_bool(&data->sync, &data->sync_mutex));
 }
