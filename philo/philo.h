@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:27:00 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/19 12:05:53 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:53:30 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define BMAG "\e[1;35m"
 # define BCYN "\e[1;36m"
 # define RSET "\e[0m"
-# define CLRS 1
+# define CLRS 0
 # define INT_MAX 2147483647
 
 typedef enum s_code
@@ -84,23 +84,20 @@ struct s_data
 };
 
 /***	ROUTINES		***********************************/
-void	ft_monitor(t_data *data);
-void	*ft_dinning(void *param);
 void	*ft_one_philo(void *param);
 bool	ft_start_sim(t_data *data);
+void	ft_monitor(t_data *data);
+void	*ft_dinning(void *param);
 
 /***	THREAD & MUTEX	***********************************/
 void	mutex_handle(pthread_mutex_t *mutex, t_code code);
 bool	thread_handle(pthread_t *thread, void *(*func)(void *),
 			void *data, t_code code);
 
-/***	SYNC			******************************************/
-void	ft_wait_threads(t_data *data);
-
 /***	ACTIONS			*****************************************/
-void	ft_eating(t_philo *philo);
 void	ft_sleeping(t_philo *philo);
 void	ft_thinking(t_philo *philo);
+void	ft_eating(t_philo *philo);
 
 /***	SET & GET			*****************************************/
 void	set_bool(bool *target, pthread_mutex_t *mutex, bool value);
@@ -111,16 +108,18 @@ long	get_long(long *target, pthread_mutex_t *mutex);
 /***	CHECKERS			*****************************************/
 bool	all_philos_full(t_data *data);
 bool	if_philo_died(t_data *data);
+
 /***	FREE			*****************************************/
 void	ft_clean(t_data *data);
 
 /***	UTILS			*****************************************/
-long	get_time(void);
-void	ft_usleep(long ms);
-long	ft_atoi(char *s);
 void	ft_print(t_philo *philo, char *s, char *color);
 bool	ft_parsing(char **arg, t_data *prog);
-bool	ft_philos_init(t_data *data);
 bool	all_philos_full(t_data *data);
+void	ft_wait_threads(t_data *data);
+bool	ft_philos_init(t_data *data);
+void	ft_usleep(long ms);
+long	ft_atoi(char *s);
+long	get_time(void);
 
 #endif

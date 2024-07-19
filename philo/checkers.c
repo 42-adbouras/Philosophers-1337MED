@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:34:29 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/19 10:52:04 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:09:29 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ bool	if_philo_died(t_data *data)
 	{
 		last_time = get_long(&data->philo_id[i].last_meal,
 				&data->philo_id[i].time);
-		if (get_time() - last_time > data->time_to_die
+		if (get_time() - last_time >= data->time_to_die
 			&& !get_bool(&data->philo_id[i].full, &data->philo_id[i].if_full))
 		{
-			ft_print(&data->philo_id[i], BRED"DEAD"RSET, BRED);
+			ft_print(&data->philo_id[i], BRED"DIED"RSET, BRED);
 			return (true);
 		}
 		i++;

@@ -6,7 +6,7 @@
 #    By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/14 12:31:17 by adbouras          #+#    #+#              #
-#    Updated: 2024/07/19 12:18:14 by adbouras         ###   ########.fr        #
+#    Updated: 2024/07/19 21:17:16 by adbouras         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ $(OBJ_DIR)%.o:%.c $(HDR)
 	@echo "$(YLW)[Creating Object $@]$(RST)"
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	
+
 $(NAME): $(OBJ)
 	@echo "$(YLW)[Compiling ...]$(RST)"
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
