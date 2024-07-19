@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:34:29 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/18 15:43:45 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:52:04 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ bool	all_philos_full(t_data *data)
 
 bool	if_philo_died(t_data *data)
 {
-	size_t	last_time;
+	long	last_time;
 	int		i;
 
 	i = 0;
 	while (i < data->num_philos)
 	{
-		last_time = get_value(&data->philo_id[i].last_meal,
+		last_time = get_long(&data->philo_id[i].last_meal,
 				&data->philo_id[i].time);
 		if (get_time() - last_time > data->time_to_die
 			&& !get_bool(&data->philo_id[i].full, &data->philo_id[i].if_full))

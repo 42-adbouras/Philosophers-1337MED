@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:13:20 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/18 15:44:27 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:49:03 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ bool	get_bool(bool *target, pthread_mutex_t *mutex)
 	return (value);
 }
 
-size_t	get_value(size_t *target, pthread_mutex_t *mutex)
+long	get_long(long *target, pthread_mutex_t *mutex)
 {
-	size_t	value;
+	long	value;
 
 	mutex_handle(mutex, LOCK);
 	value = *target;

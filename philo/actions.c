@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:38:58 by adhambouras       #+#    #+#             */
-/*   Updated: 2024/07/18 15:41:52 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/19 09:37:54 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ void	ft_print(t_philo *philo, char *s, char *color)
 		mutex_handle(&philo->data->write, UNLOCK);
 		return ;
 	}
-	printf("%-6ld %-3d %s\n", get_time() - philo->data->time_init, philo->id, s);
-	// printf("%s[%-6ld] Philosopher [%-3d] %s\n"RSET, color, get_time() - philo->data->time_init, philo->id, s);
+	if (CLRS)
+		printf("%s[%-6ld] Philosopher [%-3d] %s\n"RSET,
+			color, get_time() - philo->data->time_init, philo->id, s);
+	else
+		printf("%-6ld %-3d %s\n",
+			get_time() - philo->data->time_init, philo->id, s);
 	mutex_handle(&philo->data->write, UNLOCK);
 }
 

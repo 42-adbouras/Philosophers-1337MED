@@ -6,13 +6,13 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:54:01 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/18 12:51:40 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:26:33 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-size_t	get_time(void)
+long	get_time(void)
 {
 	struct timeval	time;
 
@@ -20,19 +20,19 @@ size_t	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	ft_usleep(size_t ms)
+void	ft_usleep(long ms)
 {
-	size_t start;
+	long	start;
 
 	start = get_time();
 	while ((get_time() - start) < ms)
 		usleep(500);
 }
 
-int	ft_atoi(char *s)
+long	ft_atoi(char *s)
 {
-	int	i;
-	int	r;
+	int		i;
+	long	r;
 
 	i = 0;
 	r = 0;
@@ -45,10 +45,13 @@ int	ft_atoi(char *s)
 		r = (r * 10) + s[i] - '0';
 		i++;
 	}
+	if (r > INT_MAX)
+		return (-1);
 	return (r);
 }
 
-void    ft_wait_threads(t_data *data)
+void	ft_wait_threads(t_data *data)
 {
-    while (!get_bool(&data->sync, &data->sync_mutex));
+	while (!get_bool(&data->sync, &data->sync_mutex))
+		;
 }

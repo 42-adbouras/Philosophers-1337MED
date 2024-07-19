@@ -6,12 +6,11 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:05:48 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/11 12:30:37 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:55:33 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 void	ft_clean(t_data *data)
 {
@@ -20,13 +19,15 @@ void	ft_clean(t_data *data)
 	i = 0;
 	while (i < data->num_philos)
 	{
-		pthread_mutex_destroy(&data->forks[i].forks);
-		pthread_mutex_destroy(&data->philo_id[i].if_full);
+		mutex_handle(&data->forks[i].forks, DESTROY);
+		mutex_handle(&data->philo_id[i].if_full, DESTROY);
+		mutex_handle(&data->philo_id[i].time, DESTROY);
 		i++;
 	}
-	pthread_mutex_destroy(&data->lock);
-	pthread_mutex_destroy(&data->write);
+	mutex_handle(&data->meals, DESTROY);
+	mutex_handle(&data->write, DESTROY);
+	mutex_handle(&data->sync_mutex, DESTROY);
+	mutex_handle(&data->death_mutex, DESTROY);
 	free(data->philo_id);
 	free(data->forks);
-	free(data);
 }
