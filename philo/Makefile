@@ -6,7 +6,7 @@
 #    By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/14 12:31:17 by adbouras          #+#    #+#              #
-#    Updated: 2024/07/19 21:17:16 by adbouras         ###   ########.fr        #
+#    Updated: 2024/07/22 09:11:27 by adbouras         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ RST	= \033[0;39m
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 SRC =  main.c philo.c handlers.c actions.c clean.c routine.c setters.c getters.c utils.c checkers.c
 

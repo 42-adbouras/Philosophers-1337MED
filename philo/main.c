@@ -6,7 +6,7 @@
 /*   By: adbouras <adbouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:22:40 by adbouras          #+#    #+#             */
-/*   Updated: 2024/07/19 12:01:08 by adbouras         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:35:43 by adbouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int ac, char **av)
 		ft_clean(data);
 	}
 	else
-		write(2, "[INPUT ERROR]\n", 14);
+		write(2, BRED"[INPUT ERROR]\n"RSET, 25);
 	return (0);
 }
 
